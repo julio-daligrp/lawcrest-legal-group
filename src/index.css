@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-main: #062446;
+  --color-navy-deep: #031A39;
+  --color-navy-secondary: #173C68;
+  --color-gold-main: #C89A32;
+  --color-gold-secondary: #D8B65A;
+  --color-warm-white: #F7F7F5;
+  --color-pure-white: #FFFFFF;
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --navy-main: #062446;
+  --navy-deep: #031A39;
+  --navy-secondary: #173C68;
+  --gold-main: #C89A32;
+  --gold-secondary: #D8B65A;
+  --warm-white: #F7F7F5;
+  --pure-white: #FFFFFF;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: #F7F7F5;
+  color: #062446;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle luxury focus outline */
+:focus-visible {
+  outline: 2px solid #C89A32;
+  outline-offset: 2px;
+}
