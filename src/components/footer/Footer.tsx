@@ -186,12 +186,22 @@ export const Footer: React.FC = () => {
               </div>
               <div>
                 <span className="text-white/50 block text-[11px] mb-0.5">UBICACIÓN PRINCIPAL</span>
-                <span className="text-white/80">BÁVARO · PUNTA CANA</span>
-                <span className="block text-white/60 text-[11px]">REPÚBLICA DOMINICANA</span>
+                <span className="block text-white/80 normal-case tracking-normal leading-relaxed">
+                  Av. Alemania, Plaza Comercial The Garden, Locales L-2 y L-4, Los Corales, Bávaro–Punta Cana, República Dominicana.
+                </span>
               </div>
-              <div className="pt-2">
+              <div className="pt-1">
                 <span className="text-white/50 block text-[11px] mb-0.5">ATENCIÓN AL CLIENTE</span>
-                <span className="text-white/80">LUNES A VIERNES: 9:00 AM – 6:00 PM</span>
+                <span className="text-white/80">LUNES A VIERNES: 9:00 AM – 5:00 PM</span>
+              </div>
+              <div>
+                <span className="text-white/50 block text-[11px] mb-0.5">CORREO ELECTRÓNICO</span>
+                <a
+                  href="mailto:contacto@lawcrestlegalgroup.com"
+                  className="text-white/80 hover:text-[#D8B65A] transition-colors duration-200 normal-case tracking-normal break-all"
+                >
+                  contacto@lawcrestlegalgroup.com
+                </a>
               </div>
             </div>
           </div>

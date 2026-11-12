@@ -204,7 +204,7 @@ export const Contact: React.FC = () => {
                   <span className="block font-sans font-semibold text-[11px] tracking-[0.16em] uppercase text-[#062446]/60 mb-1">
                     Atención al cliente
                   </span>
-                  <span className="font-sans text-sm text-[#062446]/85">Lunes a viernes: 9:00 AM – 6:00 PM</span>
+                  <span className="font-sans text-sm text-[#062446]/85">Lunes a viernes: 9:00 AM – 5:00 PM</span>
                 </div>
               </li>
               <li className="flex items-start gap-3.5">
