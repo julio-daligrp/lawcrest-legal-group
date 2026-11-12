@@ -31,17 +31,24 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   // Etiqueta visible del breadcrumb: se prioriza la clave del diccionario.
   const breadcrumbLabel = useMemo(() => {
     if (breadcrumbKey) {
-      const scopedKey = `pages.breadcrumb.${breadcrumbKey}`;
-      if (dictionary[scopedKey]) return t(scopedKey);
-      if (dictionary[breadcrumbKey]) return t(breadcrumbKey);
+      const candidates = [breadcrumbKey, breadcrumbKey.split('.')[0]];
+      for (const candidate of candidates) {
+        const scopedKey = `pages.breadcrumb.${candidate}`;
+        if (dictionary[scopedKey]) return t(scopedKey);
+        if (dictionary[candidate]) return t(candidate);
+      }
     }
     return breadcrumb ?? '';
   }, [breadcrumb, breadcrumbKey, t]);
 
   // Título del documento: clave del diccionario o título por defecto.
   const titleKey = useMemo(() => {
-    if (breadcrumbKey && dictionary[`pages.title.${breadcrumbKey}`]) {
-      return `pages.title.${breadcrumbKey}`;
+    if (breadcrumbKey) {
+      const candidates = [breadcrumbKey, breadcrumbKey.split('.')[0]];
+      for (const candidate of candidates) {
+        const scopedKey = `pages.title.${candidate}`;
+        if (dictionary[scopedKey]) return scopedKey;
+      }
     }
     return 'pages.title.default';
   }, [breadcrumbKey]);

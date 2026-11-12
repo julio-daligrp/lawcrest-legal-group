@@ -15,6 +15,7 @@ export const CorporatePage: React.FC = () => {
         title={t('corporate.page.title')}
         description={t('corporate.page.description')}
         breadcrumb={t('corporate.page.breadcrumb')}
+        breadcrumbKey="corporate"
       />
       <Corporate />
       <FirmApproach />

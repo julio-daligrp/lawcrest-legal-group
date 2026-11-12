@@ -13,6 +13,7 @@ export const BlogPage: React.FC = () => {
         title={t('blog.page.title')}
         description={t('blog.page.description')}
         breadcrumb={t('blog.page.breadcrumb')}
+        breadcrumbKey="blog"
       />
       <Blog />
     </>

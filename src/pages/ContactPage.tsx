@@ -13,6 +13,7 @@ export const ContactPage: React.FC = () => {
         title={t('contact.page.title')}
         description={t('contact.page.description')}
         breadcrumb={t('contact.page.breadcrumb')}
+        breadcrumbKey="contact"
       />
       <Contact />
     </>

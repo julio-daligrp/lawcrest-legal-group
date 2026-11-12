@@ -47,6 +47,7 @@ export const ServicesPage: React.FC = () => {
         title={t('services.page.title')}
         description={t('services.page.description')}
         breadcrumb={t('services.page.breadcrumb')}
+        breadcrumbKey="services"
       />
 
       {/* Proceso de trabajo */}
