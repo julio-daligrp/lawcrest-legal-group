@@ -69,8 +69,8 @@ export const Header: React.FC = () => {
         fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out
         ${
           isScrolled
-            ? 'h-[72px] bg-[#FFFFFF]/95 backdrop-blur-md shadow-[0_2px_15px_-3px_rgba(6,36,70,0.06)] border-b border-[#062446]/8'
-            : 'h-[84px] sm:h-[88px] bg-[#FFFFFF] border-b border-[#062446]/5'
+            ? 'h-[72px] bg-[#031A39]/95 backdrop-blur-md shadow-[0_2px_18px_-4px_rgba(0,0,0,0.45)] border-b border-[#C89A32]/25'
+            : 'h-[84px] sm:h-[88px] bg-[#062446] border-b border-[#C89A32]/15'
         }
       `}
     >
@@ -79,6 +79,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center shrink-0 pr-4">
           <Logo
             variant="dark"
+            size={isScrolled ? 'compact' : 'default'}
             onClick={() => setMobileMenuOpen(false)}
           />
         </div>
@@ -97,7 +98,7 @@ export const Header: React.FC = () => {
                 className={`
                   group relative py-2 font-sans font-medium text-xs lg:text-[13px] xl:text-[14px]
                   tracking-normal whitespace-nowrap transition-colors duration-200 select-none
-                  ${active ? 'text-[#C89A32]' : 'text-[#062446] hover:text-[#C89A32]'}
+                  ${active ? 'text-[#D8B65A]' : 'text-white/85 hover:text-[#D8B65A]'}
                 `}
               >
                 <span>{item.label}</span>
@@ -126,9 +127,9 @@ export const Header: React.FC = () => {
                 relative inline-flex items-center justify-center font-sans font-medium
                 text-xs xl:text-[13px] tracking-wider uppercase whitespace-nowrap
                 px-5 xl:px-6 py-2.5 min-h-[42px] xl:min-h-[44px]
-                rounded-[2px] text-[#FFFFFF] bg-[#062446]
-                border border-[#C89A32]/60 hover:border-[#D8B65A]
-                hover:bg-[#031A39] active:bg-[#031A39]
+                rounded-[2px] text-[#062446] bg-[#C89A32]
+                border border-[#C89A32] hover:border-[#D8B65A]
+                hover:bg-[#D8B65A] active:bg-[#C89A32]
                 transition-all duration-200 ease-out cursor-pointer
                 shadow-xs hover:shadow-sm focus-visible:ring-2 focus-visible:ring-[#C89A32]
               `}
@@ -142,9 +143,9 @@ export const Header: React.FC = () => {
                 relative inline-flex items-center justify-center font-sans font-medium
                 text-xs xl:text-[13px] tracking-wider uppercase whitespace-nowrap
                 px-5 xl:px-6 py-2.5 min-h-[42px] xl:min-h-[44px]
-                rounded-[2px] text-[#FFFFFF] bg-[#062446]
-                border border-[#C89A32]/60 hover:border-[#D8B65A]
-                hover:bg-[#031A39] active:bg-[#031A39]
+                rounded-[2px] text-[#062446] bg-[#C89A32]
+                border border-[#C89A32] hover:border-[#D8B65A]
+                hover:bg-[#D8B65A] active:bg-[#C89A32]
                 transition-all duration-200 ease-out cursor-pointer
                 shadow-xs hover:shadow-sm focus-visible:ring-2 focus-visible:ring-[#C89A32]
               `}
@@ -159,7 +160,7 @@ export const Header: React.FC = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="p-2 -mr-2 text-[#062446] hover:text-[#C89A32] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C89A32] rounded-[2px] transition-colors duration-200 cursor-pointer"
+            className="p-2 -mr-2 text-white/90 hover:text-[#D8B65A] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C89A32] rounded-[2px] transition-colors duration-200 cursor-pointer"
             aria-expanded={mobileMenuOpen}
             aria-label={mobileMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
           >

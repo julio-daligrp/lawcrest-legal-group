@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from '@/src/components/ui/Container';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
-import logoImage from '@/src/assets/images/LC-logo.png';
+import logoImage from '@/src/assets/images/LC-logo-gold-crown.png';
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
               <img
                 src={logoImage}
                 alt="Lawcrest Legal Group"
-                className="h-12 sm:h-14 w-auto object-contain brightness-0 invert drop-shadow-[0_1px_3px_rgba(200,154,50,0.3)]"
+                className="h-16 sm:h-20 w-auto object-contain drop-shadow-[0_1px_3px_rgba(200,154,50,0.3)]"
                 loading="lazy"
               />
             </div>

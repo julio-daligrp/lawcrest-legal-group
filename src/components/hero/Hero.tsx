@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from '@/src/components/ui/Container';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
-import sldImage from '@/src/assets/images/Sld.png';
-import sldImage600 from '@/src/assets/images/Sld-600.png';
-import sldImage900 from '@/src/assets/images/Sld-900.png';
+import heroImage from '@/src/assets/images/Hero-man-folder.png';
+import heroImage600 from '@/src/assets/images/Hero-man-folder-600.png';
+import heroImage900 from '@/src/assets/images/Hero-man-folder-900.png';
 
 export const Hero: React.FC = () => {
   const whatsappHref = WHATSAPP_CONFIG.getUrl();
@@ -151,13 +151,13 @@ export const Hero: React.FC = () => {
             <div className="lg:col-span-5 relative flex items-end justify-center lg:justify-end overflow-visible pt-10 sm:pt-14 lg:pt-0 rounded-none">
               
               {/* Contenedor del hombre: sobresale por arriba de la tarjeta */}
-              <div className="relative w-full h-[400px] sm:h-[480px] lg:h-[114%] lg:-mt-[14%] xl:h-[118%] xl:-mt-[18%] flex items-end justify-center lg:justify-end overflow-visible z-20 pointer-events-none">
+              <div className="relative w-full h-auto lg:h-[114%] lg:-mt-[14%] xl:h-[118%] xl:-mt-[18%] flex items-end justify-center lg:justify-end overflow-visible z-20 pointer-events-none">
                 <img
-                  src={sldImage}
-                  srcSet={`${sldImage600} 600w, ${sldImage900} 900w, ${sldImage} 1024w`}
-                  sizes="(max-width: 640px) 380px, (max-width: 1024px) 480px, 640px"
-                  alt="Asesoría legal estratégica de Lawcrest Legal Group"
-                  className="w-auto h-full max-h-[580px] lg:max-h-[660px] xl:max-h-[720px] object-contain object-bottom select-none drop-shadow-[0_20px_35px_rgba(6,36,70,0.14)] filter"
+                  src={heroImage}
+                  srcSet={`${heroImage600} 600w, ${heroImage900} 900w, ${heroImage} 1199w`}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 480px, 600px"
+                  alt="Abogado de Lawcrest Legal Group revisando un expediente"
+                  className="w-full h-auto max-w-full sm:max-w-[560px] sm:mx-auto lg:mx-0 lg:w-auto lg:h-full lg:max-w-none lg:max-h-[520px] xl:max-h-[640px] shrink-0 object-contain object-bottom select-none drop-shadow-[0_20px_35px_rgba(6,36,70,0.14)]"
                   loading="eager"
                   decoding="async"
                 />

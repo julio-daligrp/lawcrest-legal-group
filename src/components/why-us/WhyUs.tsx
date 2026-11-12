@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Container } from '@/src/components/ui/Container';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
 import { ArrowRight } from 'lucide-react';
-import logoImage from '@/src/assets/images/LC-logo.png';
+import logoImage from '@/src/assets/images/LC-logo-gold-crown.png';
 
 interface Differentiator {
   number: string;
@@ -133,11 +133,11 @@ export const WhyUs: React.FC = () => {
             </div>
 
             {/* Logotipo institucional de la firma */}
-            <div className="relative p-8 sm:p-10 bg-[#F7F7F5] rounded-none border border-[#062446]/10 border-l-2 border-l-[#C89A32] shadow-sm flex items-center justify-center">
+            <div className="relative p-8 sm:p-10 bg-[#062446] rounded-none border border-[#C89A32]/25 border-l-2 border-l-[#C89A32] shadow-sm flex items-center justify-center overflow-hidden">
               <img
                 src={logoImage}
                 alt="Lawcrest Legal Group"
-                className="w-auto max-w-[230px] sm:max-w-[280px] h-auto object-contain"
+                className="w-auto h-auto max-h-[210px] sm:max-h-[240px] max-w-[190px] sm:max-w-[220px] object-contain"
                 loading="lazy"
                 decoding="async"
               />
