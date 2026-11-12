@@ -22,8 +22,8 @@ export const Logo: React.FC<LogoProps> = ({
   const { t, link } = useI18n();
   const sizeClasses =
     size === 'compact'
-      ? 'h-14 sm:h-16 lg:h-[64px] max-h-[64px]'
-      : 'h-16 sm:h-[72px] lg:h-[80px] max-h-[80px]';
+      ? 'h-[60px] sm:h-16 lg:h-[68px] max-h-[70px]'
+      : 'h-[68px] sm:h-[76px] lg:h-[84px] max-h-[86px]';
 
   return (
     <Link

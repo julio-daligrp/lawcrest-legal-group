@@ -25,7 +25,7 @@ export const RootLayout: React.FC = () => {
       <ScrollToTop />
       <Header />
       {/* Desplazamiento por el encabezado fijo */}
-      <main className="pt-[84px] sm:pt-[88px]">
+      <main className="pt-[92px] sm:pt-[96px]">
         <Outlet />
       </main>
       <Footer />

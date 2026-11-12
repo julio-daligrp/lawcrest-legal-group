@@ -72,12 +72,12 @@ export const Header: React.FC = () => {
         fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out
         ${
           isScrolled
-            ? 'h-[72px] bg-[#031A39]/95 backdrop-blur-md shadow-[0_2px_18px_-4px_rgba(0,0,0,0.45)] border-b border-[#C89A32]/25'
-            : 'h-[84px] sm:h-[88px] bg-[#062446] border-b border-[#C89A32]/15'
+            ? 'h-[78px] bg-[#031A39]/95 backdrop-blur-md shadow-[0_2px_18px_-4px_rgba(0,0,0,0.45)] border-b border-[#C89A32]/25'
+            : 'h-[92px] sm:h-[96px] bg-[#062446] border-b border-[#C89A32]/15'
         }
       `}
     >
-      <Container size="default" className="h-full flex items-center justify-between">
+      <Container size="default" padding="header" className="h-full flex items-center justify-between">
         {/* ÁREA IZQUIERDA: Logo Lawcrest Legal Group */}
         <div className="flex items-center shrink-0 pr-4">
           <Logo
@@ -180,7 +180,7 @@ export const Header: React.FC = () => {
       {/* PANEL DESPLEGABLE MOBILE / TABLET */}
       <div
         className={`
-          lg:hidden fixed inset-x-0 top-[72px] sm:top-[84px] bottom-0 z-40
+          lg:hidden fixed inset-x-0 top-[78px] sm:top-[96px] bottom-0 z-40
           bg-[#062446] text-[#FFFFFF] overflow-y-auto transition-all duration-300 ease-in-out
           ${
             mobileMenuOpen
@@ -189,7 +189,7 @@ export const Header: React.FC = () => {
           }
         `}
         style={{
-          height: isScrolled ? 'calc(100vh - 72px)' : 'calc(100vh - 84px)',
+          height: isScrolled ? 'calc(100vh - 78px)' : 'calc(100vh - 96px)',
         }}
       >
         <div className="flex flex-col min-h-full justify-between p-6 sm:p-8 max-w-lg mx-auto">
