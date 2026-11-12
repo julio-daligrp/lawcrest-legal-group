@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logoImage from '@/src/assets/images/LC-logo-gold-crown.png';
 import logoImage240 from '@/src/assets/images/LC-logo-gold-crown-240.png';
-import logoImage480 from '@/src/assets/images/LC-logo-gold-crown-480.png';
+import logoImage360 from '@/src/assets/images/LC-logo-gold-crown-360.png';
 
 export interface LogoProps {
   variant?: 'dark' | 'light';
@@ -32,7 +32,7 @@ export const Logo: React.FC<LogoProps> = ({
     >
       <img
         src={logoImage}
-        srcSet={`${logoImage240} 240w, ${logoImage480} 480w, ${logoImage} 1188w`}
+        srcSet={`${logoImage240} 240w, ${logoImage360} 360w, ${logoImage} 473w`}
         sizes="(max-width: 640px) 60px, 80px"
         alt="Lawcrest Legal Group"
         className={`${sizeClasses} w-auto object-contain transition-all duration-200 ${
