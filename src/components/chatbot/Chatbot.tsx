@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
+import { useI18n } from '@/src/i18n';
 import { MessageCircle, X, Send, RotateCcw, Scale } from 'lucide-react';
 
 type ServiceKind = 'consulta' | 'asesoria' | 'otro' | 'directo';
 
 interface Option {
   id: string;
-  label: string;
+  /** Clave del diccionario para la etiqueta de la opción. */
+  labelKey: string;
 }
 
 interface ChatMessage {
@@ -20,19 +22,19 @@ interface ChatMessage {
 type Step = 'greeting' | 'name' | 'area' | 'desc' | 'done';
 
 const GREETING_OPTIONS: Option[] = [
-  { id: 'consulta', label: 'Solicitar una consulta legal' },
-  { id: 'asesoria', label: 'Solicitar una asesoría legal' },
-  { id: 'otro', label: 'Información sobre otro servicio' },
-  { id: 'directo', label: 'Hablar por WhatsApp ahora' },
+  { id: 'consulta', labelKey: 'chatbot.option.consulta' },
+  { id: 'asesoria', labelKey: 'chatbot.option.asesoria' },
+  { id: 'otro', labelKey: 'chatbot.option.otro' },
+  { id: 'directo', labelKey: 'chatbot.option.directo' },
 ];
 
 const AREA_OPTIONS: Option[] = [
-  { id: 'inmobiliario', label: 'Derecho Inmobiliario y Registral' },
-  { id: 'litigios', label: 'Litigios Civiles y Comerciales' },
-  { id: 'corporativo', label: 'Derecho Corporativo y Comercial' },
-  { id: 'contratos', label: 'Contratos & Due Diligence' },
-  { id: 'empresas', label: 'Asesoría a Empresas e Inversionistas' },
-  { id: 'otra', label: 'Otra consulta' },
+  { id: 'inmobiliario', labelKey: 'chatbot.area.inmobiliario' },
+  { id: 'litigios', labelKey: 'chatbot.area.litigios' },
+  { id: 'corporativo', labelKey: 'chatbot.area.corporativo' },
+  { id: 'contratos', labelKey: 'chatbot.area.contratos' },
+  { id: 'empresas', labelKey: 'chatbot.area.empresas' },
+  { id: 'otra', labelKey: 'chatbot.area.otra' },
 ];
 
 /**
@@ -41,6 +43,7 @@ const AREA_OPTIONS: Option[] = [
  * y redirige la petición al WhatsApp oficial de la firma.
  */
 export const Chatbot: React.FC = () => {
+  const { t, link } = useI18n();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [step, setStep] = useState<Step>('greeting');
@@ -73,7 +76,7 @@ export const Chatbot: React.FC = () => {
       {
         id: nextId(),
         from: 'bot',
-        text: 'Hola 👋 Soy el asistente virtual de Lawcrest Legal Group. ¿En qué podemos ayudarle?',
+        text: t('chatbot.greeting'),
         options: GREETING_OPTIONS,
       },
     ]);
@@ -85,7 +88,7 @@ export const Chatbot: React.FC = () => {
         {
           id: nextId(),
           from: 'bot',
-          text: 'Hola 👋 Soy el asistente virtual de Lawcrest Legal Group. ¿En qué podemos ayudarle?',
+          text: t('chatbot.greeting'),
           options: GREETING_OPTIONS,
         },
       ]);
@@ -96,13 +99,11 @@ export const Chatbot: React.FC = () => {
   /** Cierra la conversación y prepara el mensaje de WhatsApp final. */
   const finish = () => {
     setStep('done');
-    say(
-      '¡Listo! Su solicitud está preparada. Toque el botón para continuar por WhatsApp y un miembro de nuestro equipo atenderá su mensaje de inmediato.'
-    );
+    say(t('chatbot.ready'));
   };
 
   const handleOption = (opt: Option) => {
-    sayUser(opt.label);
+    sayUser(t(opt.labelKey));
 
     switch (step) {
       case 'greeting': {
@@ -112,30 +113,24 @@ export const Chatbot: React.FC = () => {
         } else {
           setData((d) => ({ ...d, service: opt.id as ServiceKind }));
           setStep('name');
-          say(
-            '¡Encantados de ayudarle! Para canalizar mejor su solicitud, ¿me indica su nombre?'
-          );
+          say(t('chatbot.askName'));
         }
         break;
       }
       case 'area': {
         if (opt.id === 'omitir') {
           setStep('desc');
-          say(
-            'Perfecto. Si lo desea, describa brevemente su consulta para anticipar su atención. (opcional)'
-          );
+          say(t('chatbot.askDescOptional'));
         } else {
-          setData((d) => ({ ...d, area: opt.label }));
+          setData((d) => ({ ...d, area: opt.id }));
           setStep('desc');
-          say(
-            'Gracias. Finalmente, ¿podría describir brevemente su consulta para preparar su atención? (opcional)'
-          );
+          say(t('chatbot.askDesc'));
         }
         break;
       }
       case 'desc': {
         if (opt.id === 'omitir') {
-          sayUser('Omitir descripción');
+          sayUser(t('chatbot.skipDescription'));
           finish();
         }
         break;
@@ -150,20 +145,23 @@ export const Chatbot: React.FC = () => {
 
     if (step === 'name') {
       if (!text) {
-        say('¿Me indica su nombre para poder llamarle?');
+        say(t('chatbot.askNameRequired'));
         return;
       }
       setData((d) => ({ ...d, name: text }));
       sayUser(text);
       setInput('');
       setStep('area');
-      say(`Gracias, ${text.split(' ')[0]}. ¿Con qué área se relaciona su consulta?`, AREA_OPTIONS);
+      say(
+        t('chatbot.thanksName').replace('{name}', text.split(' ')[0]),
+        AREA_OPTIONS
+      );
     } else if (step === 'desc') {
       if (text) {
         setData((d) => ({ ...d, desc: text }));
         sayUser(text);
       } else {
-        sayUser('Omitir descripción');
+        sayUser(t('chatbot.skipDescription'));
       }
       setInput('');
       finish();
@@ -172,11 +170,11 @@ export const Chatbot: React.FC = () => {
 
   const handleOmit = () => {
     if (step === 'name') {
-      sayUser('Prefiero omitir');
+      sayUser(t('chatbot.preferSkip'));
       setStep('area');
-      say('Sin problema. ¿Con qué área se relaciona su consulta?', AREA_OPTIONS);
+      say(t('chatbot.askArea'), AREA_OPTIONS);
     } else if (step === 'desc') {
-      sayUser('Omitir descripción');
+      sayUser(t('chatbot.skipDescription'));
       setInput('');
       finish();
     }
@@ -184,23 +182,28 @@ export const Chatbot: React.FC = () => {
 
   const composeWhatsAppText = (): string => {
     if (data.service === 'directo') {
-      return WHATSAPP_CONFIG.defaultMessage;
+      return t('chatbot.whatsappMessage');
     }
-    const who = data.name ? `Hola, soy ${data.name}.` : 'Hola.';
+    const who = data.name
+      ? t('chatbot.whatsappHello').replace('{name}', data.name)
+      : t('chatbot.whatsappHelloAnonymous');
     const need =
       data.service === 'consulta'
-        ? 'Deseo solicitar una consulta legal.'
+        ? t('chatbot.whatsappNeedConsulta')
         : data.service === 'asesoria'
-          ? 'Deseo solicitar una asesoría legal.'
-          : 'Deseo información sobre un servicio legal.';
-    const area = data.area ? ` Área: ${data.area}.` : '';
-    const desc = data.desc ? ` Detalle: ${data.desc}` : '';
+          ? t('chatbot.whatsappNeedAsesoria')
+          : t('chatbot.whatsappNeedOtro');
+    const areaOption = AREA_OPTIONS.find((o) => o.id === data.area);
+    const area = areaOption
+      ? ` ${t('chatbot.whatsappAreaLabel')}: ${t(areaOption.labelKey)}.`
+      : '';
+    const desc = data.desc ? ` ${t('chatbot.whatsappDetailLabel')}: ${data.desc}` : '';
     return `${who} ${need}${area}${desc}`;
   };
 
   const whatsappTarget = (() => {
     const num = (WHATSAPP_CONFIG.phoneNumber || '').replace(/[^\d]/g, '');
-    if (!num) return '/contacto';
+    if (!num) return link('/contacto');
     return `https://wa.me/${num}?text=${encodeURIComponent(composeWhatsAppText())}`;
   })();
 
@@ -221,7 +224,7 @@ export const Chatbot: React.FC = () => {
       {open && (
         <div
           role="dialog"
-          aria-label="Asistente virtual de Lawcrest Legal Group"
+          aria-label={t('chatbot.ariaLabel')}
           className="w-[min(92vw,380px)] max-h-[min(72vh,560px)] flex flex-col overflow-hidden rounded-2xl border border-[#062446]/10 bg-white shadow-2xl"
         >
           {/* Encabezado del chat */}
@@ -235,13 +238,13 @@ export const Chatbot: React.FC = () => {
                   Lawcrest Legal Group
                 </p>
                 <p className="text-[10px] text-[#D8B65A] uppercase tracking-widest">
-                  Asistente virtual
+                  {t('chatbot.subtitle')}
                 </p>
               </div>
             </div>
             <button
               onClick={() => setOpen(false)}
-              aria-label="Cerrar chat"
+              aria-label={t('chatbot.close')}
               className="text-white/70 hover:text-white transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
@@ -276,7 +279,7 @@ export const Chatbot: React.FC = () => {
                         onClick={() => handleOption(o)}
                         className="w-full text-left font-sans text-xs text-[#062446] border border-[#062446]/20 bg-white hover:border-[#C89A32] hover:text-[#C89A32] px-3 py-2 rounded-lg transition-colors duration-150 cursor-pointer"
                       >
-                        {o.label}
+                        {t(o.labelKey)}
                       </button>
                     ))}
                   </div>
@@ -295,13 +298,13 @@ export const Chatbot: React.FC = () => {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSend();
                   }}
-                  placeholder={step === 'name' ? 'Escriba su nombre...' : 'Describa su consulta (opcional)...'}
-                  aria-label={step === 'name' ? 'Su nombre' : 'Descripción de su consulta'}
+                  placeholder={step === 'name' ? t('chatbot.placeholderName') : t('chatbot.placeholderDesc')}
+                  aria-label={step === 'name' ? t('chatbot.ariaName') : t('chatbot.ariaDescription')}
                   className="flex-1 min-w-0 border border-[#062446]/20 bg-white text-[#062446] text-sm px-3 py-2.5 rounded-lg placeholder-[#062446]/40 focus:outline-none focus:border-[#C89A32] focus:ring-1 focus:ring-[#C89A32]/50"
                 />
                 <button
                   onClick={handleSend}
-                  aria-label="Enviar mensaje"
+                  aria-label={t('chatbot.send')}
                   className="w-10 h-10 shrink-0 rounded-lg bg-[#C89A32] hover:bg-[#D8B65A] text-[#031A39] flex items-center justify-center transition-colors cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
@@ -311,7 +314,7 @@ export const Chatbot: React.FC = () => {
                 onClick={handleOmit}
                 className="text-[10px] uppercase tracking-widest font-semibold text-[#062446]/50 hover:text-[#C89A32] transition-colors cursor-pointer"
               >
-                Omitir este paso
+                {t('chatbot.skipStep')}
               </button>
             </div>
           )}
@@ -327,12 +330,12 @@ export const Chatbot: React.FC = () => {
                   className={ctaClasses}
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Consultar por WhatsApp</span>
+                  <span>{t('chatbot.whatsappCta')}</span>
                 </a>
               ) : (
                 <Link to={whatsappTarget} className={ctaClasses}>
                   <MessageCircle className="w-4 h-4" />
-                  <span>Ir a la página de contacto</span>
+                  <span>{t('chatbot.contactCta')}</span>
                 </Link>
               )}
               <button
@@ -340,7 +343,7 @@ export const Chatbot: React.FC = () => {
                 className="w-full inline-flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-widest font-semibold text-[#062446]/50 hover:text-[#C89A32] transition-colors py-1 cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" />
-                <span>Reiniciar conversación</span>
+                <span>{t('chatbot.restart')}</span>
               </button>
             </div>
           )}
@@ -350,7 +353,7 @@ export const Chatbot: React.FC = () => {
       {/* Botón flotante */}
       <button
         onClick={openChat}
-        aria-label={open ? 'Cerrar chat' : 'Abrir chat con Lawcrest'}
+        aria-label={open ? t('chatbot.close') : t('chatbot.open')}
         aria-expanded={open}
         className="relative w-14 h-14 rounded-full bg-[#062446] border border-[#C89A32] text-[#D8B65A] shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center cursor-pointer"
       >

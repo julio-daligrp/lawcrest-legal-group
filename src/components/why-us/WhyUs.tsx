@@ -2,60 +2,58 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from '@/src/components/ui/Container';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
+import { useI18n } from '@/src/i18n';
 import { ArrowRight } from 'lucide-react';
 import logoImage from '@/src/assets/images/LC-logo-gold-crown.png';
 
 interface Differentiator {
   number: string;
-  title: string;
-  description: string;
-  highlight: string;
+  titleKey: string;
+  descriptionKey: string;
+  highlightKey: string;
 }
 
 const DIFFERENTIATORS: Differentiator[] = [
   {
     number: '01',
-    title: 'ATENCIÓN CERCANA',
-    highlight: 'Compromiso directo',
-    description:
-      'Trabajamos de manera cercana con nuestros clientes para comprender realmente sus necesidades y objetivos, estableciendo una relación de confianza continua.',
+    titleKey: 'whyus.item1.title',
+    highlightKey: 'whyus.item1.highlight',
+    descriptionKey: 'whyus.item1.description',
   },
   {
     number: '02',
-    title: 'RESPUESTA OPORTUNA',
-    highlight: 'Agilidad y rigor',
-    description:
-      'Valoramos el tiempo de nuestros clientes y procuramos ofrecer respuestas claras y oportunas durante cada etapa de su proceso legal.',
+    titleKey: 'whyus.item2.title',
+    highlightKey: 'whyus.item2.highlight',
+    descriptionKey: 'whyus.item2.description',
   },
   {
     number: '03',
-    title: 'ESTRATEGIA ORIENTADA A SOLUCIONES',
-    highlight: 'Enfoque preventivo',
-    description:
-      'Analizamos cada situación buscando alternativas legales estratégicas que permitan proteger los intereses de nuestros clientes y viabilizar sus proyectos.',
+    titleKey: 'whyus.item3.title',
+    highlightKey: 'whyus.item3.highlight',
+    descriptionKey: 'whyus.item3.description',
   },
   {
     number: '04',
-    title: 'COMUNICACIÓN Y SEGUIMIENTO',
-    highlight: 'Transparencia total',
-    description:
-      'Mantenemos al cliente informado sobre el estado de su caso o gestión, procurando que siempre tenga claridad sobre el proceso y los próximos pasos.',
+    titleKey: 'whyus.item4.title',
+    highlightKey: 'whyus.item4.highlight',
+    descriptionKey: 'whyus.item4.description',
   },
 ];
 
 export const WhyUs: React.FC = () => {
-  const whatsappHref = WHATSAPP_CONFIG.getUrl();
+  const { t, link } = useI18n();
+  const whatsappHref = WHATSAPP_CONFIG.getUrl(t('whyus.whatsappMessage'));
   const isExternalWhatsapp = whatsappHref.startsWith('http');
   const contactHref = isExternalWhatsapp
     ? whatsappHref
     : whatsappHref.startsWith('#')
-      ? '/contacto'
+      ? link('/contacto')
       : whatsappHref;
 
   return (
     <section
       id="la-firma"
-      aria-label="¿Por qué Lawcrest? - Lawcrest Legal Group"
+      aria-label={t('whyus.ariaLabel')}
       className="relative w-full bg-[#FFFFFF] text-[#062446] py-20 sm:py-24 lg:py-32 overflow-hidden scroll-mt-20 border-b border-[#062446]/8"
     >
       {/* Halo de luz cálida de fondo para atmósfera premium */}
@@ -105,30 +103,30 @@ export const WhyUs: React.FC = () => {
               <div className="flex items-center gap-2.5 mb-4 sm:mb-5">
                 <span className="w-6 h-[1.5px] bg-[#C89A32]" aria-hidden="true" />
                 <span className="font-sans font-semibold text-xs tracking-[0.24em] text-[#173C68] uppercase">
-                  ¿POR QUÉ LAWCREST?
+                  {t('whyus.eyebrow')}
                 </span>
               </div>
 
               {/* Título Principal */}
               <h2 className="font-serif font-normal text-[#062446] text-3xl sm:text-4xl lg:text-[46px] leading-[1.14] tracking-tight mb-5 [text-wrap:balance]">
-                Más que asesoría legal,{' '}
+                {t('whyus.title')}{' '}
                 <span className="font-serif italic text-[#C89A32] font-normal underline-offset-4 decoration-[#C89A32]/40">
-                  acompañamiento estratégico.
+                  {t('whyus.titleAccent')}
                 </span>
               </h2>
 
               {/* Texto explicativo */}
               <p className="font-sans text-sm sm:text-base text-[#062446]/75 leading-relaxed max-w-xl mb-4 font-normal">
-                En Lawcrest entendemos que detrás de cada expediente, inversión o negocio existe una decisión importante. Por eso procuramos ofrecer un acompañamiento cercano, responsable y orientado a soluciones.
+                {t('whyus.body')}
               </p>
 
               {/* Línea de ubicación y alcance */}
               <div className="flex items-center gap-2 text-xs font-sans text-[#062446]/60 select-none">
-                <span className="font-medium tracking-wide">Bávaro</span>
+                <span className="font-medium tracking-wide">{t('whyus.locationBavaro')}</span>
                 <span className="text-[#C89A32]" aria-hidden="true">·</span>
-                <span className="font-medium tracking-wide">Punta Cana</span>
+                <span className="font-medium tracking-wide">{t('whyus.locationPuntaCana')}</span>
                 <span className="text-[#C89A32]" aria-hidden="true">·</span>
-                <span className="font-medium tracking-wide">República Dominicana</span>
+                <span className="font-medium tracking-wide">{t('whyus.locationCountry')}</span>
               </div>
             </div>
 
@@ -164,19 +162,19 @@ export const WhyUs: React.FC = () => {
                     
                     {/* Título del pilar */}
                     <h3 className="font-serif text-lg sm:text-xl font-medium text-[#062446] tracking-wide group-hover:text-[#C89A32] transition-colors duration-200">
-                      {item.title}
+                      {t(item.titleKey)}
                     </h3>
                   </div>
 
                   {/* Subetiqueta descriptiva del pilar */}
                   <span className="hidden sm:inline-block text-[10px] font-sans uppercase tracking-widest text-[#062446]/40 group-hover:text-[#C89A32] transition-colors duration-200">
-                    {item.highlight}
+                    {t(item.highlightKey)}
                   </span>
                 </div>
 
                 {/* Descripción alineada con espacio holgado */}
                 <p className="font-sans text-xs sm:text-sm text-[#062446]/75 leading-relaxed pl-9 sm:pl-11 font-normal">
-                  {item.description}
+                  {t(item.descriptionKey)}
                 </p>
               </div>
             ))}
@@ -189,16 +187,16 @@ export const WhyUs: React.FC = () => {
           <div className="bg-[#062446] p-8 sm:p-10 lg:p-12 rounded-none border border-[#C89A32]/40 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8">
             <div className="max-w-2xl">
               <span className="text-[10px] sm:text-[11px] font-sans font-semibold tracking-widest uppercase text-[#D8B65A] block mb-2 select-none">
-                ATENCIÓN PERSONALIZADA
+                {t('whyus.ctaEyebrow')}
               </span>
               <h3 className="font-serif text-2xl sm:text-3xl text-white font-medium tracking-tight mb-2 [text-wrap:balance]">
-                ¿Necesita hablar sobre su situación?
+                {t('whyus.ctaTitle')}
               </h3>
               <p className="font-sans text-sm sm:text-base text-white/75 leading-relaxed mb-1">
-                Cuéntenos brevemente qué necesita y permítanos orientarle sobre los próximos pasos.
+                {t('whyus.ctaBody')}
               </p>
               <span className="text-xs font-sans text-white/50 tracking-wide">
-                Respuesta confidencial y oportuna · Sesión estratégica
+                {t('whyus.ctaNote')}
               </span>
             </div>
 
@@ -220,7 +218,7 @@ export const WhyUs: React.FC = () => {
                     text-center w-full sm:w-auto group
                   "
                 >
-                  <span>Solicitar consulta</span>
+                  <span>{t('whyus.ctaButton')}</span>
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 text-[#D8B65A]" />
                 </a>
               ) : (
@@ -238,7 +236,7 @@ export const WhyUs: React.FC = () => {
                     text-center w-full sm:w-auto group
                   "
                 >
-                  <span>Solicitar consulta</span>
+                  <span>{t('whyus.ctaButton')}</span>
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 text-[#D8B65A]" />
                 </Link>
               )}

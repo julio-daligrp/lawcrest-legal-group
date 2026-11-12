@@ -1,48 +1,50 @@
 import React, { useState } from 'react';
 import { Container } from '@/src/components/ui/Container';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
+import { useI18n } from '@/src/i18n';
 import clientAvatar1 from '@/src/assets/images/testimonial_client_1_1791472739328.jpg';
 import clientAvatar2 from '@/src/assets/images/testimonial_client_2_1791472760247.jpg';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface TestimonialItem {
   id: string;
-  quote: string;
+  /** Clave del diccionario para la cita del cliente. */
+  quoteKey: string;
+  /** Nombre del cliente (nombre propio: no se traduce). */
   author: string;
-  role: string;
+  /** Clave del diccionario para el cargo del cliente. */
+  roleKey: string;
   avatar: string;
 }
 
 const TESTIMONIALS_DATA: TestimonialItem[] = [
   {
     id: 'carlos-mendez',
-    quote:
-      'El equipo de Lawcrest nos brindó una asesoría impecable en nuestra adquisición inmobiliaria en Punta Cana. Su debida diligencia legal y acompañamiento cercano nos dieron absoluta certeza y tranquilidad en cada etapa del proceso.',
+    quoteKey: 'testimonials.items.carlos-mendez.quote',
     author: 'CARLOS MÉNDEZ',
-    role: 'INVERSIONISTA RESIDENCIAL · PUNTA CANA',
+    roleKey: 'testimonials.items.carlos-mendez.role',
     avatar: clientAvatar1,
   },
   {
     id: 'elena-rostova',
-    quote:
-      'Contar con Lawcrest como aliados jurídicos para el desarrollo de nuestras operaciones comerciales en República Dominicana ha sido una decisión estratégica. Su rapidez de respuesta, rigor documental y claridad son de primer nivel.',
+    quoteKey: 'testimonials.items.elena-rostova.quote',
     author: 'ELENA ROSTOVA',
-    role: 'DIRECTORA DE INVERSIONES INTERNACIONALES',
+    roleKey: 'testimonials.items.elena-rostova.role',
     avatar: clientAvatar2,
   },
   {
     id: 'roberto-salcedo',
-    quote:
-      'La estructuración contractual y el análisis preventivo que realizaron para nuestros proyectos comerciales nos permitieron proteger nuestro patrimonio y mitigar riesgos significativos. Profesionales con una sólida visión de negocios.',
+    quoteKey: 'testimonials.items.roberto-salcedo.quote',
     author: 'ROBERTO SALCEDO',
-    role: 'DESARROLLADOR CORPORATIVO',
+    roleKey: 'testimonials.items.roberto-salcedo.role',
     avatar: clientAvatar1,
   },
 ];
 
 export const Testimonials: React.FC = () => {
+  const { t } = useI18n();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const whatsappHref = WHATSAPP_CONFIG.getUrl();
+  const whatsappHref = WHATSAPP_CONFIG.getUrl(t('testimonials.whatsappMessage'));
 
   const current = TESTIMONIALS_DATA[currentIndex];
 
@@ -57,7 +59,7 @@ export const Testimonials: React.FC = () => {
   return (
     <section
       id="testimonios"
-      aria-label="Testimonios de clientes de Lawcrest Legal Group"
+      aria-label={t('testimonials.ariaLabel')}
       className="relative w-full bg-[#F7F7F5] py-20 sm:py-24 lg:py-28 border-b border-[#062446]/8 scroll-mt-20 overflow-hidden"
     >
       <Container size="default">
@@ -71,17 +73,17 @@ export const Testimonials: React.FC = () => {
 
             {/* Eyebrow */}
             <span className="font-sans font-semibold text-xs tracking-[0.24em] text-[#062446]/80 uppercase mb-3 block">
-              TESTIMONIOS
+              {t('testimonials.eyebrow')}
             </span>
 
             {/* Título Principal */}
             <h2 className="font-serif font-normal text-[#062446] text-3xl sm:text-4xl lg:text-[46px] leading-[1.14] tracking-tight mb-5 [text-wrap:balance]">
-              La confianza de quienes respaldan sus decisiones con nosotros
+              {t('testimonials.title')}
             </h2>
 
             {/* Párrafo explicativo */}
             <p className="font-sans text-sm sm:text-base text-[#062446]/75 leading-relaxed mb-8 max-w-md font-normal">
-              Acompañamos a propietarios, empresas e inversionistas con rigor jurídico, cercanía estratégica y una sólida protección de sus intereses.
+              {t('testimonials.description')}
             </p>
 
             {/* Botón de Contacto Dorado */}
@@ -100,7 +102,7 @@ export const Testimonials: React.FC = () => {
                   shadow-xs hover:shadow-md focus-visible:ring-2 focus-visible:ring-[#062446]
                 "
               >
-                <span>SOLICITAR CONSULTA</span>
+                <span>{t('testimonials.cta')}</span>
               </a>
             </div>
           </div>
@@ -112,7 +114,7 @@ export const Testimonials: React.FC = () => {
               {/* Cita con línea vertical dorada */}
               <div className="border-l-2 border-l-[#C89A32] pl-6 sm:pl-8 mb-8 sm:mb-10">
                 <p className="font-sans text-sm sm:text-base lg:text-[17px] text-[#062446]/85 leading-relaxed font-normal">
-                  “{current.quote}”
+                  “{t(current.quoteKey)}”
                 </p>
               </div>
 
@@ -135,7 +137,7 @@ export const Testimonials: React.FC = () => {
                       {current.author}
                     </span>
                     <span className="block font-sans text-xs tracking-wider text-[#C89A32] font-medium uppercase mt-0.5">
-                      {current.role}
+                      {t(current.roleKey)}
                     </span>
                   </div>
                 </div>
@@ -144,14 +146,14 @@ export const Testimonials: React.FC = () => {
                 <div className="flex items-center gap-2 self-end sm:self-center">
                   <button
                     onClick={handlePrev}
-                    aria-label="Testimonio anterior"
+                    aria-label={t('testimonials.prev')}
                     className="w-9 h-9 border border-[#062446]/15 hover:border-[#C89A32] text-[#062446] hover:text-[#C89A32] flex items-center justify-center transition-colors duration-200 cursor-pointer"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button
                     onClick={handleNext}
-                    aria-label="Siguiente testimonio"
+                    aria-label={t('testimonials.next')}
                     className="w-9 h-9 border border-[#062446]/15 hover:border-[#C89A32] text-[#062446] hover:text-[#C89A32] flex items-center justify-center transition-colors duration-200 cursor-pointer"
                   >
                     <ChevronRight className="w-4 h-4" />

@@ -2,26 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Container } from '@/src/components/ui/Container';
 import { Logo } from './Logo';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useI18n } from '@/src/i18n';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
 import { Menu, X } from 'lucide-react';
 
 interface NavItem {
-  label: string;
+  labelKey: string;
   path: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Inicio', path: '/' },
-  { label: 'Servicios', path: '/servicios' },
-  { label: 'Nosotros', path: '/empresas-inversionistas' },
-  { label: 'Blog', path: '/blog' },
-  { label: 'Contacto', path: '/contacto' },
+  { labelKey: 'nav.home', path: '/' },
+  { labelKey: 'nav.services', path: '/servicios' },
+  { labelKey: 'nav.about', path: '/empresas-inversionistas' },
+  { labelKey: 'nav.blog', path: '/blog' },
+  { labelKey: 'nav.contact', path: '/contacto' },
 ];
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const { pathname } = useLocation();
+  const { t, link } = useI18n();
 
   // Detect scroll state with hysteresis
   useEffect(() => {
@@ -53,7 +56,7 @@ export const Header: React.FC = () => {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  const whatsappHref = WHATSAPP_CONFIG.getUrl();
+  const whatsappHref = WHATSAPP_CONFIG.getUrl(t('nav.whatsappMessage'));
   const isExternalWhatsapp = whatsappHref.startsWith('http');
   const ctaHref = isExternalWhatsapp
     ? whatsappHref
@@ -94,14 +97,14 @@ export const Header: React.FC = () => {
             return (
               <Link
                 key={item.path}
-                to={item.path}
+                to={link(item.path)}
                 className={`
                   group relative py-2 font-sans font-medium text-xs lg:text-[13px] xl:text-[14px]
                   tracking-normal whitespace-nowrap transition-colors duration-200 select-none
                   ${active ? 'text-[#D8B65A]' : 'text-white/85 hover:text-[#D8B65A]'}
                 `}
               >
-                <span>{item.label}</span>
+                <span>{t(item.labelKey)}</span>
 
                 {/* Indicador de página activa o hover sutil con dorado #C89A32 */}
                 <span
@@ -116,8 +119,9 @@ export const Header: React.FC = () => {
           })}
         </nav>
 
-        {/* ÁREA DERECHA: Botón CTA Desktop / Laptop */}
-        <div className="hidden lg:flex items-center pl-4 shrink-0">
+        {/* ÁREA DERECHA: Selector de idioma y Botón CTA Desktop / Laptop */}
+        <div className="hidden lg:flex items-center gap-6 pl-4 shrink-0">
+          <LanguageSwitcher />
           {isExternalWhatsapp ? (
             <a
               href={ctaHref}
@@ -134,7 +138,7 @@ export const Header: React.FC = () => {
                 shadow-xs hover:shadow-sm focus-visible:ring-2 focus-visible:ring-[#C89A32]
               `}
             >
-              <span>Solicitar consulta</span>
+              <span>{t('nav.cta')}</span>
             </a>
           ) : (
             <Link
@@ -150,7 +154,7 @@ export const Header: React.FC = () => {
                 shadow-xs hover:shadow-sm focus-visible:ring-2 focus-visible:ring-[#C89A32]
               `}
             >
-              <span>Solicitar consulta</span>
+              <span>{t('nav.cta')}</span>
             </Link>
           )}
         </div>
@@ -162,7 +166,7 @@ export const Header: React.FC = () => {
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             className="p-2 -mr-2 text-white/90 hover:text-[#D8B65A] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C89A32] rounded-[2px] transition-colors duration-200 cursor-pointer"
             aria-expanded={mobileMenuOpen}
-            aria-label={mobileMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
+            aria-label={mobileMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
           >
             {mobileMenuOpen ? (
               <X className="w-6 h-6 stroke-[1.75]" />
@@ -192,14 +196,14 @@ export const Header: React.FC = () => {
           {/* Enlaces de Navegación Mobile */}
           <nav className="flex flex-col space-y-1 pt-2">
             <span className="text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-[#D8B65A] mb-4">
-              Navegación
+              {t('nav.navigation')}
             </span>
             {NAV_ITEMS.map((item) => {
               const active = isActive(item.path);
               return (
                 <Link
                   key={item.path}
-                  to={item.path}
+                  to={link(item.path)}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`
                     flex items-center justify-between py-3.5 px-3 rounded-[2px]
@@ -212,7 +216,7 @@ export const Header: React.FC = () => {
                   `}
                 >
                   <span className={active ? 'font-medium text-[#D8B65A]' : 'font-normal'}>
-                    {item.label}
+                    {t(item.labelKey)}
                   </span>
                   {active && (
                     <span className="w-1.5 h-1.5 rounded-full bg-[#C89A32]" aria-hidden="true" />
@@ -239,7 +243,7 @@ export const Header: React.FC = () => {
                     transition-colors duration-200 cursor-pointer text-center shadow-xs
                   `}
                 >
-                  <span>Solicitar consulta</span>
+                  <span>{t('nav.cta')}</span>
                 </a>
               ) : (
                 <Link
@@ -253,19 +257,20 @@ export const Header: React.FC = () => {
                     transition-colors duration-200 cursor-pointer text-center shadow-xs
                   `}
                 >
-                  <span>Solicitar consulta</span>
+                  <span>{t('nav.cta')}</span>
                 </Link>
               )}
             </div>
 
-            <div className="text-center pt-3 border-t border-[#173C68]/50 flex flex-col items-center">
+            <div className="text-center pt-3 border-t border-[#173C68]/50 flex flex-col items-center gap-4">
+              <LanguageSwitcher />
               <Logo
                 variant="light"
                 className="mb-2"
                 onClick={() => setMobileMenuOpen(false)}
               />
               <p className="text-[11px] font-sans text-white/50 tracking-widest uppercase mt-0.5">
-                Bávaro–Punta Cana, Rep. Dominicana
+                {t('nav.location')}
               </p>
             </div>
           </div>

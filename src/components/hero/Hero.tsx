@@ -2,23 +2,26 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from '@/src/components/ui/Container';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
+import { useI18n } from '@/src/i18n';
 import heroImage from '@/src/assets/images/Hero-man-folder.png';
 import heroImage600 from '@/src/assets/images/Hero-man-folder-600.png';
 import heroImage900 from '@/src/assets/images/Hero-man-folder-900.png';
 
 export const Hero: React.FC = () => {
-  const whatsappHref = WHATSAPP_CONFIG.getUrl();
+  const { t, link } = useI18n();
+
+  const whatsappHref = WHATSAPP_CONFIG.getUrl(t('hero.whatsappMessage'));
   const isExternalWhatsapp = whatsappHref.startsWith('http');
   const contactHref = isExternalWhatsapp
     ? whatsappHref
     : whatsappHref.startsWith('#')
-      ? '/contacto'
-      : whatsappHref;
+      ? link('/contacto')
+      : link(whatsappHref);
 
   return (
     <section
       id="inicio"
-      aria-label="Presentación principal de Lawcrest Legal Group"
+      aria-label={t('hero.aria.label')}
       className="relative w-full bg-[#F7F7F5] pt-14 sm:pt-20 lg:pt-24 pb-8 sm:pb-12 border-b border-[#062446]/8 overflow-visible"
     >
       <Container size="default">
@@ -45,16 +48,15 @@ export const Hero: React.FC = () => {
               <div>
                 {/* Gran Titular Serif con estilo del diseño */}
                 <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[52px] xl:text-[58px] leading-[1.08] tracking-tight text-[#062446] mb-4 sm:mb-6 [text-wrap:balance]">
-                  Soluciones legales,{' '}
+                  {t('hero.title.lead')}{' '}
                   <span className="font-serif italic font-normal text-[#C89A32] underline-offset-4 decoration-[#C89A32]/30">
-                    estratégicas
+                    {t('hero.title.highlight')}
                   </span>
                 </h1>
 
                 {/* Subtítulo / Descripción concisa */}
                 <p className="font-sans text-sm sm:text-base lg:text-lg text-[#062446]/80 leading-relaxed max-w-xl mb-6 sm:mb-8 font-normal">
-                  Asesoría y representación jurídica de alto nivel para personas, empresas e
-                  inversionistas en Bávaro–Punta Cana y toda la República Dominicana.
+                  {t('hero.description')}
                 </p>
 
                 {/* Botones de Acción */}
@@ -74,7 +76,7 @@ export const Hero: React.FC = () => {
                         shadow-sm hover:shadow-md focus-visible:ring-2 focus-visible:ring-[#C89A32]
                       "
                     >
-                      <span>Solicitar consulta</span>
+                      <span>{t('hero.cta.consultation')}</span>
                     </a>
                   ) : (
                     <Link
@@ -88,13 +90,13 @@ export const Hero: React.FC = () => {
                         shadow-sm hover:shadow-md focus-visible:ring-2 focus-visible:ring-[#C89A32]
                       "
                     >
-                      <span>Solicitar consulta</span>
+                      <span>{t('hero.cta.consultation')}</span>
                     </Link>
                   )}
 
                   {/* Botón Secundario: Contorno con borde fino */}
                   <Link
-                    to="/servicios"
+                    to={link('/servicios')}
                     className="
                       inline-flex items-center justify-center font-sans font-medium text-xs sm:text-sm
                       tracking-wider uppercase px-6 sm:px-7 py-3 min-h-[46px] rounded-none
@@ -104,7 +106,7 @@ export const Hero: React.FC = () => {
                       focus-visible:ring-2 focus-visible:ring-[#C89A32]
                     "
                   >
-                    <span>Nuestros servicios</span>
+                    <span>{t('hero.cta.services')}</span>
                   </Link>
                 </div>
               </div>
@@ -114,10 +116,10 @@ export const Hero: React.FC = () => {
                 <div className="flex items-center gap-6 sm:gap-8 lg:gap-10">
                   <div>
                     <span className="block font-serif text-xl sm:text-2xl font-bold text-[#062446] tracking-tight leading-none mb-1">
-                      Bávaro
+                      {t('hero.pillar.location.title')}
                     </span>
                     <span className="block font-sans text-[11px] sm:text-xs text-[#062446]/70 font-medium">
-                      Punta Cana · RD
+                      {t('hero.pillar.location.label')}
                     </span>
                   </div>
 
@@ -125,10 +127,10 @@ export const Hero: React.FC = () => {
 
                   <div>
                     <span className="block font-serif text-xl sm:text-2xl font-bold text-[#062446] tracking-tight leading-none mb-1">
-                      Inmobiliario
+                      {t('hero.pillar.practice.title')}
                     </span>
                     <span className="block font-sans text-[11px] sm:text-xs text-[#062446]/70 font-medium">
-                      Práctica Principal
+                      {t('hero.pillar.practice.label')}
                     </span>
                   </div>
 
@@ -136,10 +138,10 @@ export const Hero: React.FC = () => {
 
                   <div>
                     <span className="block font-serif text-xl sm:text-2xl font-bold text-[#062446] tracking-tight leading-none mb-1">
-                      Boutique
+                      {t('hero.pillar.firm.title')}
                     </span>
                     <span className="block font-sans text-[11px] sm:text-xs text-[#062446]/70 font-medium">
-                      Atención Exclusiva
+                      {t('hero.pillar.firm.label')}
                     </span>
                   </div>
                 </div>
@@ -156,7 +158,7 @@ export const Hero: React.FC = () => {
                   src={heroImage}
                   srcSet={`${heroImage600} 600w, ${heroImage900} 900w, ${heroImage} 1199w`}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 480px, 600px"
-                  alt="Abogado de Lawcrest Legal Group revisando un expediente"
+                  alt={t('hero.image.alt')}
                   className="w-full h-auto max-w-full sm:max-w-[560px] sm:mx-auto lg:mx-0 lg:w-auto lg:h-full lg:max-w-none lg:max-h-[520px] xl:max-h-[640px] shrink-0 object-contain object-bottom select-none drop-shadow-[0_20px_35px_rgba(6,36,70,0.14)]"
                   loading="eager"
                   decoding="async"

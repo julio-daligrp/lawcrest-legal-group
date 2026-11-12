@@ -1,19 +1,21 @@
 import React from 'react';
 import { Container } from '@/src/components/ui/Container';
+import { useI18n } from '@/src/i18n';
 
 export interface ServiceItem {
   id: string;
-  title: string;
-  description: string;
+  /** Clave del diccionario para el título. */
+  titleKey: string;
+  /** Clave del diccionario para la descripción. */
+  descriptionKey: string;
   icon: React.ReactNode;
 }
 
 const SERVICES_DATA: ServiceItem[] = [
   {
     id: 'inmobiliario',
-    title: 'DERECHO INMOBILIARIO Y REGISTRAL',
-    description:
-      'Asesoría legal para operaciones inmobiliarias, adquisición y transferencia de propiedades, revisión documental y gestiones registrales.',
+    titleKey: 'services.items.inmobiliario.title',
+    descriptionKey: 'services.items.inmobiliario.description',
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Edificación moderna con líneas de precisión en blanco y acento dorado */}
@@ -32,9 +34,8 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     id: 'litigios',
-    title: 'LITIGIOS CIVILES Y COMERCIALES',
-    description:
-      'Representación y estrategia legal en conflictos civiles y comerciales, desde la evaluación del caso hasta su resolución.',
+    titleKey: 'services.items.litigios.title',
+    descriptionKey: 'services.items.litigios.description',
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Balanza de la ley con estructura blanca y platillos dorados */}
@@ -54,9 +55,8 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     id: 'corporativo',
-    title: 'DERECHO CORPORATIVO Y COMERCIAL',
-    description:
-      'Asesoría jurídica para empresas y negocios, orientada a proteger sus intereses y facilitar sus operaciones.',
+    titleKey: 'services.items.corporativo.title',
+    descriptionKey: 'services.items.corporativo.description',
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Portafolio ejecutivo con líneas blancas y cerradura/broches dorados */}
@@ -69,9 +69,8 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     id: 'contratos',
-    title: 'CONTRATOS',
-    description:
-      'Elaboración, revisión y análisis de contratos para reducir riesgos y proteger los intereses de nuestros clientes.',
+    titleKey: 'services.items.contratos.title',
+    descriptionKey: 'services.items.contratos.description',
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Documento legal con esquina doblada y líneas de cláusula doradas */}
@@ -85,9 +84,8 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     id: 'cobros',
-    title: 'COBROS Y RECUPERACIÓN DE CRÉDITOS',
-    description:
-      'Estrategias legales para la gestión y recuperación de obligaciones y créditos, buscando soluciones efectivas para nuestros clientes.',
+    titleKey: 'services.items.cobros.title',
+    descriptionKey: 'services.items.cobros.description',
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Archivo financiero con calculadora y balance contable */}
@@ -107,9 +105,8 @@ const SERVICES_DATA: ServiceItem[] = [
   },
   {
     id: 'asesoria',
-    title: 'ASESORÍA A EMPRESAS E INVERSIONISTAS',
-    description:
-      'Acompañamiento legal para empresas, inversionistas nacionales y extranjeros que desarrollan actividades o realizan negocios en República Dominicana.',
+    titleKey: 'services.items.asesoria.title',
+    descriptionKey: 'services.items.asesoria.description',
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Bombilla / visión estratégica con filamento y rayos en dorado */}
@@ -131,10 +128,12 @@ const SERVICES_DATA: ServiceItem[] = [
 ];
 
 export const Services: React.FC = () => {
+  const { t } = useI18n();
+
   return (
     <section
       id="servicios"
-      aria-label="Áreas de práctica de Lawcrest Legal Group"
+      aria-label={t('services.aria.practiceAreas')}
       className="relative w-full bg-[#062446] text-[#FFFFFF] py-20 sm:py-24 lg:py-28 scroll-mt-20 border-b border-[#173C68]"
     >
       <Container size="default">
@@ -143,17 +142,16 @@ export const Services: React.FC = () => {
           <div className="flex items-center gap-2.5 mb-3.5">
             <span className="w-5 h-[1.5px] bg-[#C89A32]" aria-hidden="true" />
             <span className="font-sans font-semibold text-xs tracking-[0.24em] text-[#D8B65A] uppercase">
-              ÁREAS DE PRÁCTICA
+              {t('services.eyebrow')}
             </span>
           </div>
 
           <h2 className="font-serif font-normal text-white text-3xl sm:text-4xl lg:text-[44px] leading-[1.18] tracking-tight mb-4 sm:mb-5 [text-wrap:balance]">
-            Soluciones legales diseñadas para proteger sus intereses.
+            {t('services.heading')}
           </h2>
 
           <p className="font-sans font-normal text-white/75 text-base sm:text-lg leading-relaxed">
-            Brindamos asesoría y representación legal estratégica a personas, empresas e
-            inversionistas, con un enfoque cercano, responsable y orientado a soluciones.
+            {t('services.intro')}
           </p>
         </div>
 
@@ -186,12 +184,12 @@ export const Services: React.FC = () => {
 
                   {/* Título en mayúsculas sobrias */}
                   <h3 className="font-sans font-semibold text-sm sm:text-base tracking-[0.14em] uppercase text-white mb-3 group-hover:text-[#D8B65A] transition-colors duration-200 leading-snug">
-                    {service.title}
+                    {t(service.titleKey)}
                   </h3>
 
                   {/* Descripción clara y profesional */}
                   <p className="font-sans text-xs sm:text-sm text-white/70 leading-relaxed font-normal">
-                    {service.description}
+                    {t(service.descriptionKey)}
                   </p>
                 </div>
               );

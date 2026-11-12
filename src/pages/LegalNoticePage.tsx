@@ -8,99 +8,59 @@ import {
   LegalParagraph,
   LegalList,
 } from '@/src/components/legal/LegalArticle';
+import { useI18n } from '@/src/i18n';
 
 /** Página de Aviso Legal: condiciones generales de uso del sitio. */
 export const LegalNoticePage: React.FC = () => {
+  const { t, link } = useI18n();
+
   return (
     <>
       <PageHeader
-        title="Aviso Legal"
-        description="Condiciones generales e información sobre el uso del sitio web de Lawcrest Legal Group."
-        breadcrumb="Aviso Legal"
+        title={t('legal.notice.title')}
+        description={t('legal.notice.description')}
+        breadcrumbKey="legalNotice"
       />
 
-      <LegalArticle lastUpdated="13 de octubre de 2026">
-        <LegalSection title="1. Identificación del titular">
-          <LegalParagraph>
-            Lawcrest Legal Group es una firma legal boutique con sede en Bávaro–Punta Cana,
-            República Dominicana, dedicada a la asesoría y representación jurídica de personas,
-            empresas e inversionistas. El presente sitio web (en adelante, “el Sitio”) es operado
-            por Lawcrest Legal Group.
-          </LegalParagraph>
+      <LegalArticle lastUpdatedKey="legal.lastUpdated">
+        <LegalSection titleKey="legal.notice.section1.title">
+          <LegalParagraph>{t('legal.notice.section1.body')}</LegalParagraph>
         </LegalSection>
 
-        <LegalSection title="2. Contenido meramente informativo">
-          <LegalParagraph>
-            La información publicada en el Sitio —incluidos textos, artículos, criterios y
-            materiales— tiene carácter general, educativo e informativo. No constituye asesoría
-            legal, opinión jurídica, recomendación profesional ni ofrecimiento de servicios
-            respecto de un caso concreto. Antes de adoptar decisiones con relevancia legal, le
-            recomendamos contactar directamente con un abogado de la firma.
-          </LegalParagraph>
+        <LegalSection titleKey="legal.notice.section2.title">
+          <LegalParagraph>{t('legal.notice.section2.body')}</LegalParagraph>
         </LegalSection>
 
-        <LegalSection title="3. No constituye relación abogado-cliente">
-          <LegalParagraph>
-            El acceso y uso del Sitio no crea entre el usuario y Lawcrest Legal Group una relación
-            de abogado-cliente ni ninguna otra relación profesional. Del mismo modo, el envío de
-            información mediante los formularios del Sitio no da lugar a dicha relación hasta que
-            la firma evalúe el asunto, verifique posibles conflictos de interés y confirme
-            formalmente la aceptación del encargo.
-          </LegalParagraph>
+        <LegalSection titleKey="legal.notice.section3.title">
+          <LegalParagraph>{t('legal.notice.section3.body')}</LegalParagraph>
         </LegalSection>
 
-        <LegalSection title="4. Propiedad intelectual">
-          <LegalParagraph>
-            Todos los contenidos del Sitio —textos, gráficos, logotipos, iconografía, diseño y
-            estructura— son titularidad de Lawcrest Legal Group o de sus licenciantes y están
-            protegidos por las leyes de propiedad intelectual de la República Dominicana. Queda
-            prohibida su reproducción, distribución o modificación, total o parcial, sin
-            autorización previa y por escrito de la firma.
-          </LegalParagraph>
+        <LegalSection titleKey="legal.notice.section4.title">
+          <LegalParagraph>{t('legal.notice.section4.body')}</LegalParagraph>
         </LegalSection>
 
-        <LegalSection title="5. Enlaces a terceros">
-          <LegalParagraph>
-            El Sitio puede contener enlaces o referencias a sitios web de terceros. Lawcrest Legal
-            Group no controla ni asume responsabilidad alguna sobre el contenido, las políticas de
-            privacidad o las prácticas de dichos sitios. La inclusión de un enlace no implica
-            aprobación ni recomendación por parte de la firma.
-          </LegalParagraph>
+        <LegalSection titleKey="legal.notice.section5.title">
+          <LegalParagraph>{t('legal.notice.section5.body')}</LegalParagraph>
         </LegalSection>
 
-        <LegalSection title="6. Limitación de responsabilidad">
-          <LegalParagraph>
-            Lawcrest Legal Group pone el máximo cuidado en la información publicada, pero no
-            garantiza su exhaustividad, exactitud ni actualización en todo momento. La firma no
-            será responsable por los daños o perjuicios derivados del uso de la información del
-            Sitio, de la imposibilidad de acceso al mismo, ni de interrupciones o errores de
-            carácter técnico.
-          </LegalParagraph>
+        <LegalSection titleKey="legal.notice.section6.title">
+          <LegalParagraph>{t('legal.notice.section6.body')}</LegalParagraph>
         </LegalSection>
 
-        <LegalSection title="7. Legislación aplicable">
-          <LegalParagraph>
-            El presente Aviso Legal se rige por las leyes de la República Dominicana. Toda
-            controversia relacionada con el uso del Sitio será sometida a la jurisdicción de los
-            tribunales competentes de la República Dominicana.
-          </LegalParagraph>
+        <LegalSection titleKey="legal.notice.section7.title">
+          <LegalParagraph>{t('legal.notice.section7.body')}</LegalParagraph>
         </LegalSection>
 
-        <LegalSection title="8. Actualización y contacto">
-          <LegalParagraph>
-            Lawcrest Legal Group puede modificar el presente Aviso Legal en cualquier momento; la
-            versión vigente será la publicada en esta página. Para cualquier consulta relacionada
-            con este aviso, puede ponerse en contacto con la firma a través de la página de
-            contacto.
-          </LegalParagraph>
-          <LegalList items={['El contenido del Sitio no sustituye una consulta legal personalizada.']} />
+        <LegalSection titleKey="legal.notice.section8.title">
+          <LegalParagraph>{t('legal.notice.section8.body')}</LegalParagraph>
+          <LegalList itemKeys={['legal.notice.disclaimer']} />
 
           <div className="mt-8 pt-8 border-t border-[#062446]/10">
             <Link
-              to="/contacto"
+              to={link('/contacto')}
               className="inline-flex items-center gap-2 font-sans font-medium text-xs sm:text-sm tracking-widest uppercase px-7 py-3.5 min-h-[46px] rounded-[2px] text-[#FFFFFF] bg-[#062446] border border-[#C89A32]/60 hover:border-[#D8B65A] hover:bg-[#031A39] transition-colors cursor-pointer group"
             >
-              <span>Contactar a la firma</span>
+              <span>{t('legal.contactCta')}</span>
               <ArrowRight className="w-4 h-4 text-[#D8B65A] transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
           </div>

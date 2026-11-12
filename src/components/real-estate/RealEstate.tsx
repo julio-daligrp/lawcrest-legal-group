@@ -1,27 +1,29 @@
 import React from 'react';
 import { Container } from '@/src/components/ui/Container';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
+import { useI18n } from '@/src/i18n';
 import realEstateShowcaseImg from '@/src/assets/images/lawcrest_real_estate_showcase_1791404070597.jpg';
 import realEstateShowcaseImg500 from '@/src/assets/images/lawcrest_real_estate_showcase-500.jpg';
 import realEstateShowcaseImg800 from '@/src/assets/images/lawcrest_real_estate_showcase-800.jpg';
 
-const PRACTICE_AREAS = [
-  'Operaciones de compraventa inmobiliaria',
-  'Revisión y análisis de documentación',
-  'Due diligence legal',
-  'Gestiones registrales',
-  'Transferencia de propiedades',
-  'Asesoría a compradores e inversionistas',
-  'Asesoría a desarrolladores inmobiliarios',
+const PRACTICE_AREA_KEYS = [
+  'realestate.area1',
+  'realestate.area2',
+  'realestate.area3',
+  'realestate.area4',
+  'realestate.area5',
+  'realestate.area6',
+  'realestate.area7',
 ];
 
 export const RealEstate: React.FC = () => {
-  const whatsappHref = WHATSAPP_CONFIG.getUrl();
+  const { t } = useI18n();
+  const whatsappHref = WHATSAPP_CONFIG.getUrl(t('realestate.whatsappMessage'));
 
   return (
     <section
       id="inmobiliario"
-      aria-label="Derecho Inmobiliario y Registral - Lawcrest Legal Group"
+      aria-label={t('realestate.ariaLabel')}
       className="relative w-full bg-[#062446] text-[#FFFFFF] py-16 sm:py-20 lg:py-28 overflow-hidden scroll-mt-20 border-b border-[#173C68]"
     >
       {/* Sutil textura arquitectónica de fondo (líneas geométricas tenues) */}
@@ -52,7 +54,7 @@ export const RealEstate: React.FC = () => {
               {/* Elemento editorial discreto: "SEGURIDAD JURÍDICA" */}
               <div className="flex items-center gap-2.5 mb-3.5 text-xs font-sans tracking-widest uppercase text-[#D8B65A] select-none">
                 <span className="w-5 h-[1.5px] bg-[#C89A32]" aria-hidden="true" />
-                <span className="tracking-[0.2em] font-medium text-[11px]">SEGURIDAD JURÍDICA</span>
+                <span className="tracking-[0.2em] font-medium text-[11px]">{t('realestate.badge')}</span>
               </div>
 
               {/* Fotografía limpia sin marcos */}
@@ -61,7 +63,7 @@ export const RealEstate: React.FC = () => {
                   src={realEstateShowcaseImg}
                   srcSet={`${realEstateShowcaseImg500} 500w, ${realEstateShowcaseImg800} 800w, ${realEstateShowcaseImg} 896w`}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 480px"
-                  alt="Propiedad residencial exclusiva y desarrollo inmobiliario en Punta Cana, República Dominicana"
+                  alt={t('realestate.imageAlt')}
                   className="w-full h-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02]"
                   loading="lazy"
                   decoding="async"
@@ -79,32 +81,28 @@ export const RealEstate: React.FC = () => {
             <div className="flex items-center gap-2.5 mb-3.5 sm:mb-4">
               <span className="w-5 h-[1.5px] bg-[#C89A32]" aria-hidden="true" />
               <span className="font-sans font-semibold text-xs sm:text-[13px] tracking-[0.22em] text-[#D8B65A] uppercase">
-                DERECHO INMOBILIARIO Y REGISTRAL
+                {t('realestate.eyebrow')}
               </span>
             </div>
 
             {/* 2. TÍTULO */}
             <h2 className="font-serif font-normal text-white text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] leading-[1.16] tracking-tight mb-5 sm:mb-6 [text-wrap:balance]">
-              Protegemos sus decisiones inmobiliarias desde el primer paso.
+              {t('realestate.title')}
             </h2>
 
             {/* 3. TEXTOS EXPLICATIVOS */}
             <div className="space-y-4 mb-8 sm:mb-9 text-white/80 font-sans text-sm sm:text-base leading-relaxed">
-              <p>
-                Una inversión inmobiliaria representa una decisión importante. En Lawcrest Legal Group acompañamos a nuestros clientes en el análisis y gestión legal de sus operaciones, procurando que cada decisión esté respaldada por la debida seguridad jurídica.
-              </p>
-              <p className="text-white/70">
-                Brindamos asesoría a propietarios, compradores, inversionistas y desarrolladores que necesitan orientación legal para realizar operaciones inmobiliarias en República Dominicana.
-              </p>
+              <p>{t('realestate.description1')}</p>
+              <p className="text-white/70">{t('realestate.description2')}</p>
             </div>
 
             {/* 4. ÁREAS DE ACOMPAÑAMIENTO */}
             <div className="mb-8 sm:mb-10 pt-6 border-t border-[#173C68]">
               <span className="text-xs font-sans font-semibold tracking-widest uppercase text-[#D8B65A] block mb-4 select-none">
-                Áreas de acompañamiento legal
+                {t('realestate.areasTitle')}
               </span>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 text-xs sm:text-sm text-white/85 font-sans">
-                {PRACTICE_AREAS.map((area, index) => (
+                {PRACTICE_AREA_KEYS.map((areaKey, index) => (
                   <li key={index} className="flex items-start gap-2.5">
                     <span
                       className="text-[#C89A32] text-sm leading-none shrink-0 mt-1 select-none"
@@ -112,7 +110,7 @@ export const RealEstate: React.FC = () => {
                     >
                       •
                     </span>
-                    <span className="leading-snug">{area}</span>
+                    <span className="leading-snug">{t(areaKey)}</span>
                   </li>
                 ))}
               </ul>
@@ -122,7 +120,7 @@ export const RealEstate: React.FC = () => {
             <div className="pt-6 border-t border-[#173C68] space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <span className="font-serif text-lg sm:text-xl text-white font-normal">
-                  Conversemos sobre su inversión
+                  {t('realestate.ctaTitle')}
                 </span>
 
                 <a
@@ -141,13 +139,13 @@ export const RealEstate: React.FC = () => {
                     text-center w-full sm:w-auto shrink-0
                   "
                 >
-                  <span>Solicitar consulta</span>
+                  <span>{t('realestate.ctaButton')}</span>
                 </a>
               </div>
 
               {/* Mensaje complementario para clientes internacionales */}
               <p className="text-white/60 text-xs sm:text-[13px] font-sans leading-relaxed pt-1">
-                Atendemos clientes nacionales e internacionales interesados en invertir, adquirir propiedades o realizar negocios en República Dominicana.
+                {t('realestate.internationalNote')}
               </p>
             </div>
 

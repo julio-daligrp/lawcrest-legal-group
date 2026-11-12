@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from '@/src/components/ui/Container';
 import { WHATSAPP_CONFIG } from '@/src/config/contact';
+import { useI18n } from '@/src/i18n';
 import { MapPin, Clock, Mail, Phone, Instagram, MessageCircle, CheckCircle2, Send } from 'lucide-react';
 
-const PRACTICE_AREAS = [
-  'Derecho Inmobiliario y Registral',
-  'Litigios Civiles y Comerciales',
-  'Derecho Corporativo y Comercial',
-  'Contratos & Due Diligence',
-  'Cobros y Recuperación de Créditos',
-  'Asesoría a Empresas e Inversionistas',
-  'Otra consulta',
+/** Claves del diccionario con las áreas de consulta ofrecidas en el formulario. */
+const PRACTICE_AREA_KEYS = [
+  'contact.areas.realEstate',
+  'contact.areas.litigation',
+  'contact.areas.corporate',
+  'contact.areas.contracts',
+  'contact.areas.collections',
+  'contact.areas.advisory',
+  'contact.areas.other',
 ];
 
 /** Información oficial de contacto y ubicación de la firma. */
@@ -44,17 +46,18 @@ const INITIAL_FORM: ContactFormData = {
 };
 
 export const Contact: React.FC = () => {
+  const { t, link } = useI18n();
   const [form, setForm] = useState<ContactFormData>(INITIAL_FORM);
   const [consent, setConsent] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const [errorKey, setErrorKey] = useState<string>('');
 
-  const whatsappHref = WHATSAPP_CONFIG.getUrl();
+  const whatsappHref = WHATSAPP_CONFIG.getUrl(t('contact.whatsappMessage'));
   const isExternalWhatsapp = whatsappHref.startsWith('http');
   const contactHref = isExternalWhatsapp
     ? whatsappHref
     : whatsappHref.startsWith('#')
-      ? '/contacto'
+      ? link('/contacto')
       : whatsappHref;
 
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
@@ -66,22 +69,22 @@ export const Contact: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    if (error) setError('');
+    if (errorKey) setErrorKey('');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      setError('Por favor complete los campos obligatorios: nombre, correo y mensaje.');
+      setErrorKey('contact.form.errorRequired');
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
-      setError('Por favor indique un correo electrónico válido.');
+      setErrorKey('contact.form.errorEmail');
       return;
     }
     if (!consent) {
-      setError('Debe aceptar el aviso de confidencialidad para continuar.');
+      setErrorKey('contact.form.errorConsent');
       return;
     }
 
@@ -92,7 +95,7 @@ export const Contact: React.FC = () => {
   const handleReset = () => {
     setForm(INITIAL_FORM);
     setConsent(false);
-    setError('');
+    setErrorKey('');
     setSubmitted(false);
   };
 
@@ -107,7 +110,7 @@ export const Contact: React.FC = () => {
   return (
     <section
       id="contacto"
-      aria-label="Formulario de contacto - Lawcrest Legal Group"
+      aria-label={t('contact.section.ariaLabel')}
       className="relative w-full bg-[#FFFFFF] text-[#062446] py-20 sm:py-24 lg:py-28 scroll-mt-20 border-b border-[#062446]/8 overflow-hidden"
     >
       {/* Textura geométrica sutil de fondo */}
@@ -129,17 +132,16 @@ export const Contact: React.FC = () => {
             <div className="flex items-center gap-2.5 mb-3.5">
               <span className="w-5 h-[1.5px] bg-[#C89A32]" aria-hidden="true" />
               <span className="font-sans font-semibold text-xs tracking-[0.24em] text-[#173C68] uppercase">
-                CONTACTO
+                {t('contact.section.eyebrow')}
               </span>
             </div>
 
             <h2 className="font-serif font-normal text-[#062446] text-3xl sm:text-4xl lg:text-[42px] leading-[1.18] tracking-tight mb-5 [text-wrap:balance]">
-              Conversemos sobre su caso.
+              {t('contact.section.title')}
             </h2>
 
             <p className="font-sans font-normal text-[#062446]/75 text-sm sm:text-base leading-relaxed mb-10">
-              Complete el formulario y un miembro de nuestro equipo se pondrá en contacto con usted
-              para coordinar una consulta. Sus datos serán tratados con estricta confidencialidad.
+              {t('contact.section.description')}
             </p>
 
             <ul className="space-y-5 pt-8 border-t border-[#062446]/10">
@@ -147,7 +149,7 @@ export const Contact: React.FC = () => {
                 <MapPin className="w-5 h-5 text-[#C89A32] shrink-0 mt-0.5" />
                 <div>
                   <span className="block font-sans font-semibold text-[11px] tracking-[0.16em] uppercase text-[#062446]/60 mb-1">
-                    Ubicación principal
+                    {t('contact.info.locationLabel')}
                   </span>
                   <span className="font-sans text-sm text-[#062446]/85 leading-relaxed">
                     {COMPANY_INFO.address}
@@ -158,7 +160,7 @@ export const Contact: React.FC = () => {
                 <Phone className="w-5 h-5 text-[#C89A32] shrink-0 mt-0.5" />
                 <div>
                   <span className="block font-sans font-semibold text-[11px] tracking-[0.16em] uppercase text-[#062446]/60 mb-1">
-                    Teléfono
+                    {t('contact.info.phoneLabel')}
                   </span>
                   <a
                     href={COMPANY_INFO.phoneTel}
@@ -172,7 +174,7 @@ export const Contact: React.FC = () => {
                 <Mail className="w-5 h-5 text-[#C89A32] shrink-0 mt-0.5" />
                 <div>
                   <span className="block font-sans font-semibold text-[11px] tracking-[0.16em] uppercase text-[#062446]/60 mb-1">
-                    Correo electrónico
+                    {t('contact.info.emailLabel')}
                   </span>
                   <a
                     href={`mailto:${COMPANY_INFO.email}`}
@@ -186,7 +188,7 @@ export const Contact: React.FC = () => {
                 <Instagram className="w-5 h-5 text-[#C89A32] shrink-0 mt-0.5" />
                 <div>
                   <span className="block font-sans font-semibold text-[11px] tracking-[0.16em] uppercase text-[#062446]/60 mb-1">
-                    Redes sociales
+                    {t('contact.info.socialLabel')}
                   </span>
                   <a
                     href={COMPANY_INFO.instagramUrl}
@@ -202,16 +204,16 @@ export const Contact: React.FC = () => {
                 <Clock className="w-5 h-5 text-[#C89A32] shrink-0 mt-0.5" />
                 <div>
                   <span className="block font-sans font-semibold text-[11px] tracking-[0.16em] uppercase text-[#062446]/60 mb-1">
-                    Atención al cliente
+                    {t('contact.info.hoursLabel')}
                   </span>
-                  <span className="font-sans text-sm text-[#062446]/85">Lunes a viernes: 9:00 AM – 5:00 PM</span>
+                  <span className="font-sans text-sm text-[#062446]/85">{t('contact.info.hours')}</span>
                 </div>
               </li>
               <li className="flex items-start gap-3.5">
                 <MessageCircle className="w-5 h-5 text-[#C89A32] shrink-0 mt-0.5" />
                 <div>
                   <span className="block font-sans font-semibold text-[11px] tracking-[0.16em] uppercase text-[#062446]/60 mb-1">
-                    Consulta directa
+                    {t('contact.info.directLabel')}
                   </span>
                   {isExternalWhatsapp ? (
                     <a
@@ -220,14 +222,14 @@ export const Contact: React.FC = () => {
                       rel="noopener noreferrer"
                       className="font-sans text-sm text-[#C89A32] hover:text-[#062446] transition-colors duration-200"
                     >
-                      Escribir por WhatsApp
+                      {t('contact.info.whatsapp')}
                     </a>
                   ) : (
                     <Link
                       to={contactHref}
                       className="font-sans text-sm text-[#C89A32] hover:text-[#062446] transition-colors duration-200"
                     >
-                      Escribir por WhatsApp
+                      {t('contact.info.whatsapp')}
                     </Link>
                   )}
                 </div>
@@ -242,18 +244,17 @@ export const Contact: React.FC = () => {
                 <div className="flex flex-col items-center text-center py-10">
                   <CheckCircle2 className="w-14 h-14 text-[#C89A32] mb-5" />
                   <h3 className="font-serif text-2xl sm:text-3xl text-[#062446] font-medium tracking-tight mb-3">
-                    ¡Mensaje enviado!
+                    {t('contact.success.title')}
                   </h3>
                   <p className="font-sans text-sm text-[#062446]/75 leading-relaxed max-w-md mb-8">
-                    Gracias por contactar a Lawcrest Legal Group. Hemos recibido su consulta y le
-                    responderemos a la brevedad al correo indicado.
+                    {t('contact.success.description')}
                   </p>
                   <button
                     type="button"
                     onClick={handleReset}
                     className="inline-flex items-center justify-center font-sans font-semibold text-xs tracking-wider uppercase px-7 py-3.5 min-h-[46px] rounded-[2px] text-[#062446] bg-transparent border border-[#C89A32] hover:bg-[#C89A32]/15 transition-colors cursor-pointer"
                   >
-                    Enviar otra consulta
+                    {t('contact.success.again')}
                   </button>
                 </div>
               ) : (
@@ -261,7 +262,7 @@ export const Contact: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label htmlFor="name" className={labelClasses}>
-                        Nombre completo <span className="text-[#C89A32]">*</span>
+                        {t('contact.form.name')} <span className="text-[#C89A32]">*</span>
                       </label>
                       <input
                         id="name"
@@ -269,7 +270,7 @@ export const Contact: React.FC = () => {
                         type="text"
                         value={form.name}
                         onChange={handleChange}
-                        placeholder="Su nombre"
+                        placeholder={t('contact.form.namePlaceholder')}
                         autoComplete="name"
                         required
                         className={inputClasses}
@@ -277,7 +278,7 @@ export const Contact: React.FC = () => {
                     </div>
                     <div>
                       <label htmlFor="email" className={labelClasses}>
-                        Correo electrónico <span className="text-[#C89A32]">*</span>
+                        {t('contact.form.email')} <span className="text-[#C89A32]">*</span>
                       </label>
                       <input
                         id="email"
@@ -285,7 +286,7 @@ export const Contact: React.FC = () => {
                         type="email"
                         value={form.email}
                         onChange={handleChange}
-                        placeholder="correo@ejemplo.com"
+                        placeholder={t('contact.form.emailPlaceholder')}
                         autoComplete="email"
                         required
                         className={inputClasses}
@@ -296,7 +297,10 @@ export const Contact: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label htmlFor="phone" className={labelClasses}>
-                        Teléfono <span className="text-[#062446]/40 normal-case tracking-normal">(opcional)</span>
+                        {t('contact.form.phone')}{' '}
+                        <span className="text-[#062446]/40 normal-case tracking-normal">
+                          {t('contact.form.optional')}
+                        </span>
                       </label>
                       <input
                         id="phone"
@@ -311,7 +315,7 @@ export const Contact: React.FC = () => {
                     </div>
                     <div>
                       <label htmlFor="area" className={labelClasses}>
-                        Área de interés
+                        {t('contact.form.area')}
                       </label>
                       <select
                         id="area"
@@ -320,10 +324,10 @@ export const Contact: React.FC = () => {
                         onChange={handleChange}
                         className={`${inputClasses} cursor-pointer`}
                       >
-                        <option value="">Seleccione un área</option>
-                        {PRACTICE_AREAS.map((area) => (
-                          <option key={area} value={area} className="bg-[#FFFFFF] text-[#062446]">
-                            {area}
+                        <option value="">{t('contact.form.areaPlaceholder')}</option>
+                        {PRACTICE_AREA_KEYS.map((areaKey) => (
+                          <option key={areaKey} value={areaKey} className="bg-[#FFFFFF] text-[#062446]">
+                            {t(areaKey)}
                           </option>
                         ))}
                       </select>
@@ -332,7 +336,7 @@ export const Contact: React.FC = () => {
 
                   <div>
                     <label htmlFor="message" className={labelClasses}>
-                      Mensaje <span className="text-[#C89A32]">*</span>
+                      {t('contact.form.message')} <span className="text-[#C89A32]">*</span>
                     </label>
                     <textarea
                       id="message"
@@ -340,7 +344,7 @@ export const Contact: React.FC = () => {
                       value={form.message}
                       onChange={handleChange}
                       rows={5}
-                      placeholder="Describa brevemente su consulta o situación legal."
+                      placeholder={t('contact.form.messagePlaceholder')}
                       required
                       className={`${inputClasses} resize-y min-h-[140px]`}
                     />
@@ -354,30 +358,30 @@ export const Contact: React.FC = () => {
                       checked={consent}
                       onChange={(e) => {
                         setConsent(e.target.checked);
-                        if (error) setError('');
+                        if (errorKey) setErrorKey('');
                       }}
                       className="mt-1 w-4 h-4 shrink-0 accent-[#C89A32] cursor-pointer"
                     />
                     <label htmlFor="consent" className="font-sans text-xs text-[#062446]/70 leading-relaxed cursor-pointer">
-                      He leído y acepto que mis datos sean tratados conforme al{' '}
+                      {t('contact.form.consentPrefix')}{' '}
                       <Link
-                        to="/confidencialidad"
+                        to={link('/confidencialidad')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-[#C89A32] underline underline-offset-2 hover:text-[#062446] transition-colors whitespace-nowrap"
                       >
-                        aviso de confidencialidad
+                        {t('contact.form.consentLink')}
                       </Link>{' '}
-                      de Lawcrest Legal Group. <span className="text-[#C89A32]">*</span>
+                      {t('contact.form.consentSuffix')} <span className="text-[#C89A32]">*</span>
                     </label>
                   </div>
 
-                  {error && (
+                  {errorKey && (
                     <div
                       role="alert"
                       className="p-3.5 bg-[#C89A32]/10 border border-[#C89A32]/50 font-sans text-xs text-[#062446]"
                     >
-                      {error}
+                      {t(errorKey)}
                     </div>
                   )}
 
@@ -395,11 +399,13 @@ export const Contact: React.FC = () => {
                     "
                   >
                     <Send className="w-4 h-4" />
-                    <span>Enviar consulta</span>
+                    <span>{t('contact.form.submit')}</span>
                   </button>
 
                   <p className="font-sans text-[11px] text-[#062446]/45 text-center leading-relaxed">
-                    Los campos marcados con <span className="text-[#C89A32]">*</span> son obligatorios.
+                    {t('contact.form.requiredNotePrefix')}{' '}
+                    <span className="text-[#C89A32]">*</span>{' '}
+                    {t('contact.form.requiredNoteSuffix')}
                   </p>
                 </form>
               )}
@@ -410,7 +416,7 @@ export const Contact: React.FC = () => {
         {/* Mapa de la oficina a ancho completo */}
         <div className="mt-12 overflow-hidden border border-[#062446]/10 bg-[#F7F7F5]">
           <iframe
-            title="Mapa de Lawcrest Legal Group en Bávaro–Punta Cana"
+            title={t('contact.map.title')}
             src={mapSrc}
             className="w-full h-64 sm:h-80 border-0"
             loading="lazy"

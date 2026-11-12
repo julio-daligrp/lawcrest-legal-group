@@ -1,15 +1,18 @@
 import React from 'react';
 import { PageHeader } from '@/src/components/layout/PageHeader';
 import { Blog } from '@/src/components/blog/Blog';
+import { useI18n } from '@/src/i18n';
 
 /** Página de Blog y actualidad jurídica. */
 export const BlogPage: React.FC = () => {
+  const { t } = useI18n();
+
   return (
     <>
       <PageHeader
-        title="Análisis y perspectivas legales para decisiones informadas"
-        description="Compartimos criterios jurídicos sobre el entorno inmobiliario, corporativo y de inversión en República Dominicana."
-        breadcrumb="Blog"
+        title={t('blog.page.title')}
+        description={t('blog.page.description')}
+        breadcrumb={t('blog.page.breadcrumb')}
       />
       <Blog />
     </>

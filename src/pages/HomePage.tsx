@@ -8,7 +8,7 @@ import { useDocumentTitle } from '@/src/hooks/useDocumentTitle';
 
 /** Página de inicio: presentación principal, servicios, quiénes somos, testimonios y blog. */
 export const HomePage: React.FC = () => {
-  useDocumentTitle('LAWCREST LEGAL GROUP | Firma Legal Boutique');
+  useDocumentTitle('pages.home.title');
 
   return (
     <>
